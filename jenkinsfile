@@ -48,7 +48,7 @@ pipeline {
         stage("Add Gitea artifact to archive") {
             steps {
                 echo 'Create archive'
-                ish 'tar czvf gitea.build${BUILD_NUMBER}.tgz gitea'
+                sh 'tar czvf gitea.build${BUILD_NUMBER}.tgz gitea'
                 echo 'Copy archive'
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'gitea.build${BUILD_NUMBER}.tgz')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                 echo 'Delete archive'
