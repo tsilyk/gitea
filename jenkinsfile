@@ -1,0 +1,62 @@
+pipeline {
+    // install golang 1.19.5 on Jenkins node
+    agent {
+        label 'node1'
+    }
+    tools {
+        go 'golang1.19.5'
+    }
+    environment {
+        GO114MODULE = 'on'
+        CGO_ENABLED = 0 
+        GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
+        TAGS = "bindata"
+    }
+    stages {
+        stage("Get Sources") {
+            steps {
+                echo 'Geting Gitea from github'
+                git branch: 'main', url: 'https://github.com/tsilyk/gitea.git/'
+            }
+        }
+        stage("Build") {
+            steps {
+                echo 'Building Gitea'
+                sh 'make build'
+            }
+        }
+        stage("Test frontend") {
+            steps {
+                echo 'Testing frontend'
+                sh 'make test-frontend'
+            }
+        }
+        stage("Test backend") {
+            steps {
+                echo 'Testing backend'
+                sh 'make test-sqlite#TestAdminViewUsers'
+            }
+        }
+        stage("Update Gitea on node01-test") {
+            steps {
+                echo 'Stoping service'
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'gitea01-test', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'systemctl stop gitea', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                echo 'Starting service'
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'gitea01-test', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'systemctl start gitea', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'gitea')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+            }
+        }
+        stage("Add Gitea artifact to archive") {
+            steps {
+                echo 'Create archive'
+                ish 'tar czvf gitea.build${BUILD_NUMBER}.tgz gitea'
+                echo 'Copy archive'
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'gitea.build${BUILD_NUMBER}.tgz')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                echo 'Delete archive'
+                sh 'rm gitea.build${BUILD_NUMBER}.tgz'
+            }
+        }
+    }
+}
+
+
+
