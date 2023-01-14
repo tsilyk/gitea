@@ -19,6 +19,12 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/tsilyk/gitea.git/'
             }
         }
+        stage("Clean Build") {
+            steps {
+                echo 'Cleaning duild'
+                sh 'make clean'
+            }
+        }
         stage("Build") {
             steps {
                 echo 'Building Gitea'
