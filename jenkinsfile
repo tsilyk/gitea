@@ -22,7 +22,7 @@ pipeline {
         stage("Build") {
             steps {
                 echo 'Building Gitea'
-                sh 'make build'
+                sh 'TAGS="bindata" make build'
             }
         }
         stage("Test frontend") {
