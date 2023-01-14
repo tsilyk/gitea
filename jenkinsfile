@@ -1,5 +1,5 @@
 pipeline {
-    // install golang 1.19.5 on Jenkins node
+    //  install golang 1.19.5 on Jenkins node
     agent {
         label 'node1'
     }
@@ -16,7 +16,7 @@ pipeline {
         stage("Get Sources") {
             steps {
                 echo 'Geting Gitea from github'
-                git branch: '*/main', url: 'https://github.com/tsilyk/gitea.git/'
+                git branch: 'main', url: 'https://github.com/tsilyk/gitea.git/'
             }
         }
         stage("Build") {
