@@ -56,7 +56,8 @@ pipeline {
                 echo 'Create archive'
                 sh 'tar czvf gitea.build${BUILD_NUMBER}.tgz gitea'
                 echo 'Copy archive'
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'rm gitea.lastversion ; ln gitea.build${BUILD_NUMBER}.tgz gitea.lastversion', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'gitea.build${BUILD_NUMBER}.tgz')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                //sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'rm gitea.lastversion ; ln gitea.build${BUILD_NUMBER}.tgz gitea.lastversion', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'gitea.build${BUILD_NUMBER}.tgz')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'pwd > pwd.txt', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'gitea.build${BUILD_NUMBER}.tgz')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                 echo 'Delete archive'
                 sh 'rm gitea.build${BUILD_NUMBER}.tgz'
             }
