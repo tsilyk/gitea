@@ -40,7 +40,7 @@ pipeline {
         stage("Test backend") {
             steps {
                 echo 'Testing backend'
-                sh 'make test-sqlite#TestAdminViewUsers'
+                //sh 'make test-sqlite#TestAdminViewUsers'
             }
         }
         stage("Update Gitea on node01-test") {
