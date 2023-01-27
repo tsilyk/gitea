@@ -24,7 +24,7 @@ RUN if [ -n "${GITEA_VERSION}" ]; then git checkout "${GITEA_VERSION}"; fi \
 RUN go build contrib/environment-to-ini/environment-to-ini.go
 
 FROM alpine:3.17
-LABEL maintainer="yuriy.ysilyk@gmail.com"
+LABEL maintainer="maintainers@gitea.io"
 
 EXPOSE 22 3000
 
@@ -41,8 +41,16 @@ RUN apk --no-cache add \
     su-exec \
     gnupg
 
-RUN addgroup -S -g 1000 git && \
-  adduser -S -H -D -h /data/git -s /bin/bash -u 1000 -G git git && \
+RUN addgroup \
+    -S -g 1000 \
+    git && \
+  adduser \
+    -S -H -D \
+    -h /data/git \
+    -s /bin/bash \
+    -u 1000 \
+    -G git \
+    git && \
   echo "git:*" | chpasswd -e
 
 ENV USER git
