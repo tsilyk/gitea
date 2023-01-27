@@ -18,7 +18,7 @@ WORKDIR ${GOPATH}/src/code.gitea.io/gitea
 
 #Checkout version if set
 RUN if [ -n "${GITEA_VERSION}" ]; then git checkout "${GITEA_VERSION}"; fi \
- && make clean-all buil && make test-frontend
+ && make clean-all build && make test-frontend
 
 # Begin env-to-ini build
 RUN go build contrib/environment-to-ini/environment-to-ini.go
