@@ -48,7 +48,7 @@ cpu.out
 *.db
 *.log
 
-/gitea
+# /gitea
 /gitea-vet
 /debug
 /integrations.test
