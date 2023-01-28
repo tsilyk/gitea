@@ -59,7 +59,7 @@ cpu.out
 !/custom/conf
 /custom/conf/*
 !/custom/conf/app.example.ini
-/data
+#/data
 /indexers
 /log
 /public/img/avatar
