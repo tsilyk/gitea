@@ -11,9 +11,9 @@ RUN addgroup -S -g 1000 git && \
     chown git:git /var/lib/gitea /etc/gitea
 
 COPY ./containers/root /
-COPY ./gitea /app/gitea/gitea
+COPY ./gitea /app/gitea
 COPY ./environment-to-ini /usr/local/bin/environment-to-ini
-RUN chmod 755 /usr/local/bin/docker-entrypoint.sh /usr/local/bin/docker-setup.sh /app/gitea/gitea /usr/local/bin/gitea /usr/local/bin/environment-to-ini
+RUN chmod 755 /usr/local/bin/docker-entrypoint.sh /app/gitea /usr/local/bin/environment-to-ini
 
 #git:git
 USER 1000:1000
@@ -21,8 +21,6 @@ ENV GITEA_WORK_DIR /var/lib/gitea
 ENV GITEA_CUSTOM /var/lib/gitea/custom
 ENV GITEA_TEMP /tmp/gitea
 ENV TMPDIR /tmp/gitea
-
-#TODO add to docs the ability to define the ini to load (useful to test and revert a config)
 ENV GITEA_APP_INI /etc/gitea/app.ini
 ENV HOME "/var/lib/gitea/git"
 VOLUME ["/var/lib/gitea", "/etc/gitea"]

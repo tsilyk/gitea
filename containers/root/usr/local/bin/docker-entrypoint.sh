@@ -21,6 +21,9 @@ GITEA_APP_INI="/etc/gitea/app.ini"
 #    /usr/local/bin/gitea-setup.sh || { echo 'docker setup failed' ; exit 1; }
 #fi
 
+ls -la /etc/gitea
+ls -la /app/
+
 # Replace app.ini settings with env variables in the form GITEA__SECTION_NAME__KEY_NAME
 environment-to-ini --config ${GITEA_APP_INI}
 
