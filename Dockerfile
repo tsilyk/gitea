@@ -1,14 +1,33 @@
-FROM alpine:latest
-EXPOSE 22 3000
-COPY ./gitea /gitea
-RUN apk add git
+FROM alpine:3.17
+LABEL maintainer="yuriy.tsilyk@gmail.com"
+
+EXPOSE 2222 3000
+
+RUN apk --no-cache add bash ca-certificates dumb-init gettext git curl gnupg
 
 RUN addgroup -S -g 1000 git && \
-    adduser -S -H -D -h /data/git -s /bin/bash -u 1000 -G git git && \
-    echo "git:*" | chpasswd -e
+    adduser -S -H -D -h /var/lib/gitea/git -s /bin/bash -u 1000 -G git git && \
+    mkdir -p /var/lib/gitea /etc/gitea && \
+    chown git:git /var/lib/gitea /etc/gitea
 
-USER git
-ENV GITEA_CUSTOM /data/gitea
+COPY ./containers/root /
+COPY ./gitea /app/gitea/gitea
+COPY ./environment-to-ini /usr/local/bin/environment-to-ini
+RUN chmod 755 /usr/local/bin/docker-entrypoint.sh /usr/local/bin/docker-setup.sh /app/gitea/gitea /usr/local/bin/gitea /usr/local/bin/environment-to-ini
 
-VOLUME ["/data"]
-CMD ["/gitea", "web"]
+#git:git
+USER 1000:1000
+ENV GITEA_WORK_DIR /var/lib/gitea
+ENV GITEA_CUSTOM /var/lib/gitea/custom
+ENV GITEA_TEMP /tmp/gitea
+ENV TMPDIR /tmp/gitea
+
+#TODO add to docs the ability to define the ini to load (useful to test and revert a config)
+ENV GITEA_APP_INI /etc/gitea/app.ini
+ENV HOME "/var/lib/gitea/git"
+VOLUME ["/var/lib/gitea", "/etc/gitea"]
+WORKDIR /var/lib/gitea
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
+CMD []
+
