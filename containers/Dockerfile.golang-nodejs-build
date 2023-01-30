@@ -1,0 +1,19 @@
+FROM golang:1.19-alpine3.17 AS build-env
+RUN apk --no-cache add bash ca-certificates dumb-init build-base git git-lfs nodejs npm tzdata
+ENV TZ Europe/Kiev
+RUN ln -fs /usr/share/zoneinfo/Europe/Kiev /etc/localtime
+
+RUN addgroup \
+    -S -g 998 \
+    git && \
+  adduser \
+    -S -H -D \
+    -h /project \
+    -s /bin/bash \
+    -u 998 \
+    -G git \
+    git
+
+USER 998:998
+
+CMD ["bash"]

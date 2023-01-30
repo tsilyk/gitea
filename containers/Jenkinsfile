@@ -12,20 +12,19 @@ pipeline {
         stage("Clean Build") {
             steps {
                 echo 'Cleaning build'
-                //sh 'docker run --rm -v $(pwd):/project --workdir /project --user 998:998  tsilyk/golang-nodejs-alpine:latest sh -c "make clean-all"'
+                sh 'docker run --rm -v $(pwd):/project --workdir /project --user 998:998  tsilyk/golang-nodejs-alpine:latest sh -c "make clean-all"'
             }
         }
         stage("Build") {
             steps {
                 echo 'Building Gitea'
-                //sh 'docker run --rm -v $(pwd):/project --workdir /project --user 998:998  tsilyk/golang-nodejs-alpine:latest sh -c "TAGS=bindata make build && go build contrib/environment-to-ini/environment-to-ini.go"'
+                sh 'docker run --rm -v $(pwd):/project --workdir /project --user 998:998  tsilyk/golang-nodejs-alpine:latest sh -c "TAGS=bindata make build && go build contrib/environment-to-ini/environment-to-ini.go"'
             }
         }
         stage("Tests") {
             steps {
                 echo 'Testing frontend'
-                //sh 'docker run --rm -v $(pwd):/project --workdir /project --user 998:998  tsilyk/golang-nodejs-alpine:latest sh -c "make test#TestAdminViewUsers"'
-                //sh 'make test-frontend'
+                sh 'docker run --rm -v $(pwd):/project --workdir /project --user 998:998  tsilyk/golang-nodejs-alpine:latest sh -c "make test#TestAdminViewUsers"'
             }
         }
         stage('Build docker image') {
@@ -51,6 +50,12 @@ pipeline {
                 echo 'Deleting docker image'
                 sh 'docker rmi tsilyk/gitea-server:latest'
                 sh 'docker rmi tsilyk/gitea-server:$(git describe --tags --abbrev=0)'
+            }
+        }
+        stage('Deploy new image') {
+            steps {
+                echo 'Geploing docker image'
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'minicube', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl rollout restart deployment gitea', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
     }

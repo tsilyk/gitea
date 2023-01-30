@@ -1,0 +1,12 @@
+#secretGenerator:
+#- name: mysql-root-secret
+#  literals:
+#    - password=password
+#- name: mysql-gitea-secret
+#  literals:
+#    - username=gitea
+#    - password=gitea1
+resources:
+  - gitea-secrets.yaml
+  - gitea-database.yaml
+  - gitea.yaml
