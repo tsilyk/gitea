@@ -1,0 +1,57 @@
+pipeline {
+    agent { label 'node1' }
+    
+    stages {
+        stage("Checkout") {
+            steps {
+                echo 'Geting Gitea from github'
+                git branch: 'main', url: 'https://github.com/tsilyk/gitea.git/'
+                
+            }
+        }
+        stage("Clean Build") {
+            steps {
+                echo 'Cleaning build'
+                //sh 'docker run --rm -v $(pwd):/project --workdir /project --user 998:998  tsilyk/golang-nodejs-alpine:latest sh -c "make clean-all"'
+            }
+        }
+        stage("Build") {
+            steps {
+                echo 'Building Gitea'
+                //sh 'docker run --rm -v $(pwd):/project --workdir /project --user 998:998  tsilyk/golang-nodejs-alpine:latest sh -c "TAGS=bindata make build && go build contrib/environment-to-ini/environment-to-ini.go"'
+            }
+        }
+        stage("Tests") {
+            steps {
+                echo 'Testing frontend'
+                //sh 'docker run --rm -v $(pwd):/project --workdir /project --user 998:998  tsilyk/golang-nodejs-alpine:latest sh -c "make test#TestAdminViewUsers"'
+                //sh 'make test-frontend'
+            }
+        }
+        stage('Build docker image') {
+            steps {
+                echo 'Building docker image'
+                sh 'docker build -t tsilyk/gitea-server:$(git describe --tags --abbrev=0) .'
+                sh 'docker tag tsilyk/gitea-server:$(git describe --tags --abbrev=0) tsilyk/gitea-server:latest'
+            }
+        }
+        stage('Push docker image to DockerHub') {
+            steps{
+                echo 'Pushing docker image'
+                withDockerRegistry(credentialsId: 'dockerhub-cred-tsilyk', url: 'https://index.docker.io/v1/') {
+                    sh '''
+                        docker push tsilyk/gitea-server:$(git describe --tags --abbrev=0)
+                        docker push tsilyk/gitea-server:latest
+                    '''
+                }
+            }
+        }
+        stage('Delete docker image locally') {
+            steps {
+                echo 'Deleting docker image'
+                sh 'docker rmi tsilyk/gitea-server:latest'
+                sh 'docker rmi tsilyk/gitea-server:$(git describe --tags --abbrev=0)'
+            }
+        }
+    }
+}
