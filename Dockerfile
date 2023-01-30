@@ -6,14 +6,14 @@ EXPOSE 2222 3000
 RUN apk --no-cache add bash ca-certificates dumb-init gettext git curl gnupg
 
 RUN addgroup -S -g 1000 git && \
-    adduser -S -H -D -h /var/lib/gitea/git -s /bin/bash -u 1000 -G git git && \
-    mkdir -p /var/lib/gitea /etc/gitea && \
-    chown git:git /var/lib/gitea /etc/gitea
+    adduser -S -H -D -h /var/lib/gitea/git -s /bin/bash -u 1000 -G git git
 
 COPY ./containers/root /
 COPY ./gitea /app/gitea
 COPY ./environment-to-ini /usr/local/bin/environment-to-ini
-RUN chmod 755 /usr/local/bin/docker-entrypoint.sh /app/gitea /usr/local/bin/environment-to-ini
+RUN chmod 755 /usr/local/bin/docker-entrypoint.sh /app/gitea /usr/local/bin/environment-to-ini && \
+    mkdir -p /var/lib/gitea /etc/gitea && \
+    chown git:git -R /var/lib/gitea /etc/gitea
 
 #git:git
 USER 1000:1000
