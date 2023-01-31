@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mysql-pv-volume
+  namespace: gitea-testing
   labels:
     type: local
 spec:
@@ -17,6 +18,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pv-claim
+  namespace: gitea-testing
 spec:
   storageClassName: manual
   accessModes:
@@ -29,6 +31,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql
+  namespace: gitea-testing
 spec:
   ports:
   - port: 3306
@@ -40,6 +43,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
+  namespace: gitea-testing
 spec:
   selector:
     matchLabels:

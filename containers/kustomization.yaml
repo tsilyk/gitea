@@ -7,6 +7,7 @@
 #    - username=gitea
 #    - password=gitea1
 resources:
+  - gitea-namespace.yaml
   - gitea-secrets.yaml
   - gitea-database.yaml
   - gitea.yaml

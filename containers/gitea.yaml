@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: gitea
+  namespace: gitea-testing
   labels:
     app: gitea
 spec:
@@ -17,6 +18,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: gitea-pv-volume
+  namespace: gitea-testing
   labels:
     app: gitea
     type: local
@@ -33,6 +35,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: gitea-pv-claim
+  namespace: gitea-testing
   labels:
     app: gitea
 spec:
@@ -47,9 +50,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gitea
+  namespace: gitea-testing
   labels:
     app: gitea
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: gitea
@@ -77,11 +82,15 @@ spec:
           command:
             - "/bin/sh"
             - "-c"
-            - "until mysql --host=mysql.default --user=$GITEA_DB_USER --password=$GITEA_DB_PASS --execute=\"SELECT 1;\"; do echo waiting for mysql; sleep 2; done;" 
+            - "until mysql --host=mysql.gitea-testing --user=$GITEA_DB_USER --password=$GITEA_DB_PASS --execute=\"SELECT 1;\"; do echo waiting for mysql; sleep 2; done;" 
       containers:
       - image: tsilyk/gitea-server:latest
         name: gitea
         env:
+        - name: GITEA__DEFAULT__APP_NAME
+          value: "Gitea:> Git with a cup of tea"
+        - name: GITES__DEFAULT__RUN_MODE
+          value: prod
         - name: GITEA__database__DB_TYPE
           value: mysql
         - name: GITEA__database__HOST
@@ -99,19 +108,15 @@ spec:
               name: mysql-gitea-secret
               key: password
         - name: GITEA__server__ROOT_URL
-          value: http://softserve.eq.org.ua:30339/
+          value: http://testgitea.eq.org.ua/
         - name: GITEA__server__LFS_JWT_SECRET
           value: eqiu-ihY3KO0Uwz6MhYxagzAcABn01RR6TMyWMMdmog
-        - name: GITEA__server__DISABLE_SSH 
-          value: "true"
         - name: GITEA__security__INTERNAL_TOKEN
           value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzQ3Nzc3MjZ9.oI_kLfUUnQaJZJiwTIAF0BQmNg92CkFe-E6QVSkGJEw
-        - name: GITEA__openid__ENABLE_OPENID_SIGNIN
-          value: "false"
-        - name: GITEA__openid__ENABLE_OPENID_SIGNUP 
-          value: "false"
         - name: GITEA__security__INSTALL_LOCK
-          value: "false"
+          value: "true"
+        - name: GITEA__security__SECRET_KEY
+          value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzUxMDA4NTZ9.gIdd5d-Ng_t6-atwyZEd3MgU-JEJZzAkhtiFxummUPg
         ports:
         - containerPort: 3000
           name: gitea
