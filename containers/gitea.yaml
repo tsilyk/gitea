@@ -87,9 +87,9 @@ spec:
       - image: tsilyk/gitea-server:latest
         name: gitea
         env:
-        - name: GITEA__DEFAULT__APP_NAME
+        - name: GITEA____APP_NAME
           value: "Gitea:> Git with a cup of tea"
-        - name: GITES__DEFAULT__RUN_MODE
+        - name: GITES____RUN_MODE
           value: prod
         - name: GITEA__database__DB_TYPE
           value: mysql
