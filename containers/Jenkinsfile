@@ -55,7 +55,7 @@ pipeline {
         stage('Deploy new image') {
             steps {
                 echo 'Geploing docker image'
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'minicube', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl rollout restart deployment gitea', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl rollout restart deployment gitea -n=gitea-testing', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
     }

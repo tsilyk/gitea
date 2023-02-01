@@ -88,7 +88,10 @@ spec:
         name: gitea
         env:
         - name: GITEA____APP_NAME
-          value: "Gitea:> Git with a cup of tea"
+          #value: "Gitea:> Git with a cup of tea"
+          valueFrom:
+              fieldRef:
+                  fieldPath: status.podIP
         - name: GITES____RUN_MODE
           value: prod
         - name: GITEA__database__DB_TYPE
