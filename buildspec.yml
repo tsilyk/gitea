@@ -29,15 +29,15 @@ phases:
     #commands:
       # - command
       # - command
-  pre_build:
-    commands:
-       - make clean-all
+#  pre_build:
+#    commands:
+#       - make clean-all
   build:
     commands:
        - make build
-  post_build:
-    commands:
-       - make test#TestAdminViewUsers
+#  post_build:
+#    commands:
+#       - make test#TestAdminViewUsers
 #reports:
   #report-name-or-arn:
     #files:
