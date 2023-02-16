@@ -1,1 +1,1 @@
-make: TAGS=bindata make build
+build: chmod +x gitea
