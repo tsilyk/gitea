@@ -52,8 +52,8 @@ artifacts:
      - Procfile
      - Buildfile
   name: gitea-$(git describe --tags --abbrev=0)-$(date +%Y-%m-%d)
-  #discard-paths: yes
-  base-directory: gitea-artifacts
+  discard-paths: yes
+  #base-directory: gitea-artifacts
 #cache:
   #paths:
     # - paths
