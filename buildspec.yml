@@ -1,8 +1,8 @@
 version: 0.2
 
-#env:
-  #variables:
-     # key: "value"
+env:
+  variables:
+      TAGS: "bindata"
      # key: "value"
   #parameter-store:
      # key: "value"
@@ -29,19 +29,15 @@ phases:
     #commands:
       # - command
       # - command
-  #pre_build:
-    #commands:
-      # - command
-      # - command
+  pre_build:
+    commands:
+       - make clean-all
   build:
     commands:
-       - TAGS=bindata make build
-      # - command
-      # - command
-  #post_build:
-    #commands:
-      # - command
-      # - command
+       - make build
+  post_build:
+    commands:
+       - make test#TestAdminViewUsers
 #reports:
   #report-name-or-arn:
     #files:
@@ -55,9 +51,9 @@ artifacts:
      - gitea
      - Procfile
      - Buildfile
-  #name: $(date +%Y-%m-%d)
+  name: gitea-$(git describe --tags --abbrev=0)-$(date +%Y-%m-%d)
   #discard-paths: yes
-  #base-directory: location
+  base-directory: gitea-artifacts
 #cache:
   #paths:
     # - paths
