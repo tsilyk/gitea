@@ -35,7 +35,7 @@ phases:
       # - command
   build:
     commands:
-       - "TAGS=bindata make build"
+       - TAGS=bindata make build
       # - command
       # - command
   #post_build:
