@@ -29,15 +29,23 @@ phases:
     #commands:
       # - command
       # - command
-#  pre_build:
-#    commands:
+  pre_build:
+    commands:
+      - echo "Pre-build step!"
+      - id
+      - ls -la
+      - pwd
 #       - make clean-all
   build:
     commands:
+       - echo "Build step!"
        - make build
        - go build contrib/environment-to-ini/environment-to-ini.go
-#  post_build:
-#    commands:
+  post_build:
+    commands:
+       - echo "Build step!"
+       - pwd
+       - ls -la
 #       - make test#TestAdminViewUsers
 #reports:
   #report-name-or-arn:
