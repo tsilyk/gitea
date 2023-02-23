@@ -35,6 +35,7 @@ phases:
   build:
     commands:
        - make build
+       - go build contrib/environment-to-ini/environment-to-ini.go
 #  post_build:
 #    commands:
 #       - make test#TestAdminViewUsers
@@ -51,6 +52,8 @@ artifacts:
      - gitea
      - Procfile
      - Buildfile
+     - environment-to-ini
+     - .ebextensions
   name: gitea-$(git describe --tags --abbrev=0)-$(date +%Y-%m-%d)
   #discard-paths: yes
   #base-directory: gitea-artifacts
