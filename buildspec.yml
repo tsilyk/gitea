@@ -53,8 +53,11 @@ artifacts:
      - Procfile
      - Buildfile
      - environment-to-ini
-     - .ebextensions
-  name: gitea-$(git describe --tags --abbrev=0)-$(date +%Y-%m-%d)
+     - .ebextensions/01-storage-efs-mountfilesystem.config
+     - .ebextensions/05-directories-for-application.config
+     - .ebextensions/10-application-configuration-template.config
+     - .ebextensions/15-application-configuration-generate.config
+  #name: gitea-$(git describe --tags --abbrev=0)-$(date +%Y-%m-%d)
   #discard-paths: yes
   #base-directory: gitea-artifacts
 #cache:
