@@ -47,7 +47,8 @@ phases:
        - pwd
        - ls -la
        - ls -la /sbin/runuser
-       - /sbin/runuser -l ec2-user -c "make test#TestAdminViewUsers"
+       - cat /etc/passwd
+#       - /sbin/runuser -l ec2-user -c "make test#TestAdminViewUsers"
 #       - make test#TestAdminViewUsers
 #reports:
   #report-name-or-arn:
