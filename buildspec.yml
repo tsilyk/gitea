@@ -37,6 +37,7 @@ phases:
       - id
       - ls -la
       - pwd
+      - sudo chown -R 1000:1000 "/root/.npm"
       - npm cache clean --force
       - make clean-all
   build:
