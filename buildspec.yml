@@ -43,9 +43,10 @@ phases:
        - go build contrib/environment-to-ini/environment-to-ini.go
   post_build:
     commands:
-       - echo "Build step!"
+       - echo "Post-Build step!"
        - pwd
        - ls -la
+       - runuser -l  ec2-user -c "touch /tmp/it_works"
 #       - make test#TestAdminViewUsers
 #reports:
   #report-name-or-arn:
