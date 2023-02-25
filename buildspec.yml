@@ -43,7 +43,8 @@ phases:
        - go build contrib/environment-to-ini/environment-to-ini.go
        - echo "----------Run tests!----------"
        - pwd
-         ls -la
+       - ls -la
+       - make test#TestAdminViewUsers
        - runuser -l codebuild-user -c "pwd"
        - runuser -l codebuild-user -c "ls -la"
          #- runuser -l codebuild-user -c "make test#TestAdminViewUsers"
