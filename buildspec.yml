@@ -1,6 +1,6 @@
 version: 0.2
 
-#run-as: codebuild-user
+run-as: codebuild-user
 
 env:
   variables:
@@ -43,16 +43,16 @@ phases:
   build:
     commands:
        - echo "----------Build step!----------"
-         #- make build
-         #- go build contrib/environment-to-ini/environment-to-ini.go
-         #       - echo "----------Run tests!----------"
+       - make build
+       - go build contrib/environment-to-ini/environment-to-ini.go
+       - echo "----------Run tests!----------"
          #- pwd
          #- ls -la
-         #       - make test#TestAdminViewUsers
-       - PWD=`pwd`
-       - echo $PWD
-       - runuser -l codebuild-user -c "cd $PWD && make test#TestAdminViewUsers"
-       - runuser -l codebuild-user -c "ls -la"
+       - make test#TestAdminViewUsers
+         #- PWD=`pwd`
+         #- echo $PWD
+         #- runuser -l codebuild-user -c "cd $PWD && make test#TestAdminViewUsers"
+         #- runuser -l codebuild-user -c "ls -la"
          #- runuser -l codebuild-user -c "make test#TestAdminViewUsers"
   post_build:
     commands:
