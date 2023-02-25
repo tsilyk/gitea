@@ -41,6 +41,8 @@ phases:
        - echo "Build step!"
        - make build
        - go build contrib/environment-to-ini/environment-to-ini.go
+         echo "Run tests!"
+       - runuser -l codebuild-user -c "make test#TestAdminViewUsers"
   post_build:
     commands:
        - echo "Post-Build step!"
@@ -48,7 +50,7 @@ phases:
        - ls -la
        - ls -la /sbin/runuser
        - cat /etc/passwd
-       - /sbin/runuser -l codebuild-user -c "make test#TestAdminViewUsers"
+         #       - runuser -l codebuild-user -c "make test#TestAdminViewUsers"
 #       - make test#TestAdminViewUsers
 #reports:
   #report-name-or-arn:
