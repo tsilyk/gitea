@@ -37,21 +37,21 @@ phases:
       - id
       - ls -la
       - pwd
-      - sudo chown -R 1000:1000 "/root/.npm"
-      - npm cache clean --force
-      - make clean-all
+#      - sudo chown -R 1000:1000 "/root/.npm"
+#      - npm cache clean --force
+#      - make clean-all
   build:
     commands:
        - echo "----------Build step!----------"
-       - make build
-       - go build contrib/environment-to-ini/environment-to-ini.go
+         #- make build
+         #- go build contrib/environment-to-ini/environment-to-ini.go
          #       - echo "----------Run tests!----------"
          #- pwd
          #- ls -la
          #       - make test#TestAdminViewUsers
-         #- PWD=`pwd`
-         #- runuser -l codebuild-user -c "cd $PWD && pwd"
-         #- runuser -l codebuild-user -c "ls -la"
+         - PWD=`pwd`
+         - runuser -l codebuild-user -c "cd $PWD && pwd"
+         - runuser -l codebuild-user -c "ls -la"
          #- runuser -l codebuild-user -c "make test#TestAdminViewUsers"
   post_build:
     commands:
