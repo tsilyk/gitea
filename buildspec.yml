@@ -51,7 +51,7 @@ phases:
          #       - make test#TestAdminViewUsers
        - PWD=`pwd`
        - echo $PWD
-       - runuser -l codebuild-user -c "cd $PWD && pwd"
+       - runuser -l codebuild-user -c "cd $PWD && make test#TestAdminViewUsers"
        - runuser -l codebuild-user -c "ls -la"
          #- runuser -l codebuild-user -c "make test#TestAdminViewUsers"
   post_build:
@@ -59,7 +59,7 @@ phases:
        - echo "----------Post-Build step!----------"
        - pwd
        - ls -la
-       - make test#TestAdminViewUsers
+#       - make test#TestAdminViewUsers
 #reports:
   #report-name-or-arn:
     #files:
