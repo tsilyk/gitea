@@ -46,7 +46,8 @@ phases:
        - echo "Post-Build step!"
        - pwd
        - ls -la
-       - runuser -l  ec2-user -c "touch /tmp/it_works"
+       - ls -la /sbin/runuser
+         #- /sbin/runuser -l ec2-user -c "touch /tmp/it_works"
 #       - make test#TestAdminViewUsers
 #reports:
   #report-name-or-arn:
