@@ -49,9 +49,9 @@ phases:
          #- pwd
          #- ls -la
          #       - make test#TestAdminViewUsers
-         - PWD=`pwd`
-         - runuser -l codebuild-user -c "cd $PWD && pwd"
-         - runuser -l codebuild-user -c "ls -la"
+       - PWD=`pwd`
+       - runuser -l codebuild-user -c "cd $PWD && pwd"
+       - runuser -l codebuild-user -c "ls -la"
          #- runuser -l codebuild-user -c "make test#TestAdminViewUsers"
   post_build:
     commands:
