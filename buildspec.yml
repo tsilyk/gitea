@@ -1,5 +1,7 @@
 version: 0.2
 
+run-as: codebuild-user
+
 env:
   variables:
       TAGS: "bindata"
@@ -39,25 +41,22 @@ phases:
   build:
     commands:
        - echo "----------Build step!----------"
-       #- make build
+       - make build
        - go build contrib/environment-to-ini/environment-to-ini.go
-       - echo "----------Run tests!----------"
-       - pwd
-       - ls -la
-       - make test#TestAdminViewUsers
-       - PWD=`pwd`
-       - runuser -l codebuild-user -c "cd $PWD && pwd"
-       - runuser -l codebuild-user -c "ls -la"
+         #       - echo "----------Run tests!----------"
+         #- pwd
+         #- ls -la
+         #       - make test#TestAdminViewUsers
+         #- PWD=`pwd`
+         #- runuser -l codebuild-user -c "cd $PWD && pwd"
+         #- runuser -l codebuild-user -c "ls -la"
          #- runuser -l codebuild-user -c "make test#TestAdminViewUsers"
   post_build:
     commands:
        - echo "----------Post-Build step!----------"
        - pwd
        - ls -la
-       - ls -la /sbin/runuser
-       - cat /etc/passwd
-         #       - runuser -l codebuild-user -c "make test#TestAdminViewUsers"
-#       - make test#TestAdminViewUsers
+       - make test#TestAdminViewUsers
 #reports:
   #report-name-or-arn:
     #files:
