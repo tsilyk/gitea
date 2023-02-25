@@ -37,7 +37,8 @@ phases:
       - id
       - ls -la
       - pwd
-#       - make clean-all
+      - npm cache clean --force
+      - make clean-all
   build:
     commands:
        - echo "----------Build step!----------"
