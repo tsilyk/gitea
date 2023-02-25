@@ -31,21 +31,21 @@ phases:
       # - command
   pre_build:
     commands:
-      - echo "Pre-build step!"
+      - echo "----------Pre-build step!----------"
       - id
       - ls -la
       - pwd
 #       - make clean-all
   build:
     commands:
-       - echo "Build step!"
+       - echo "----------Build step!----------"
        - make build
        - go build contrib/environment-to-ini/environment-to-ini.go
-         echo "Run tests!"
+       - echo "----------Run tests!----------"
        - runuser -l codebuild-user -c "make test#TestAdminViewUsers"
   post_build:
     commands:
-       - echo "Post-Build step!"
+       - echo "----------Post-Build step!----------"
        - pwd
        - ls -la
        - ls -la /sbin/runuser
