@@ -1,6 +1,6 @@
 version: 0.2
 
-run-as: codebuild-user
+#run-as: codebuild-user
 
 env:
   variables:
