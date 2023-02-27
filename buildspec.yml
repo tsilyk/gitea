@@ -1,70 +1,20 @@
 version: 0.2
 
-  #run-as: codebuild-user
-
 env:
   variables:
       TAGS: "bindata"
-     # key: "value"
-  #parameter-store:
-     # key: "value"
-     # key: "value"
-  #secrets-manager:
-     # key: secret-id:json-key:version-stage:version-id
-     # key: secret-id:json-key:version-stage:version-id
-  #exported-variables:
-     # - variable
-     # - variable
-  #git-credential-helper: yes
-#batch:
-  #fast-fail: true
-  #build-list:
-  #build-matrix:
-  #build-graph:
 phases:
-  #install:
-    #If you use the Ubuntu standard image 2.0 or later, you must specify runtime-versions.
-    #If you specify runtime-versions and use an image other than Ubuntu standard image 2.0, the build fails.
-    #runtime-versions:
-      # name: version
-      # name: version
-    #commands:
-      # - command
-      # - command
-  pre_build:
-    commands:
-      - echo "----------Pre-build step!----------"
-      - id
-      - ls -la
-      - pwd
-#      - sudo chown -R 1000:1000 "/root/.npm"
-#      - npm cache clean --force
-#      - make clean-all
   build:
     commands:
        - echo "----------Build step!----------"
        - make build
        - go build contrib/environment-to-ini/environment-to-ini.go
-         #- make test#TestAdminViewUsers
-         #- PWD=`pwd`
-         #- echo $PWD
-         #- runuser -l codebuild-user -c "cd $PWD && make test#TestAdminViewUsers"
-         #- runuser -l codebuild-user -c "ls -la"
-         #- runuser -l codebuild-user -c "make test#TestAdminViewUsers"
   post_build:
     commands:
        - echo "----------Run tests!----------"
        - pwd
        - ls -la
-#       - make test#TestAdminViewUsers
-#reports:
-  #report-name-or-arn:
-    #files:
-      # - location
-      # - location
-    #base-directory: location
-    #discard-paths: yes
-    #file-format: JunitXml | CucumberJson
+      #- make test#TestAdminViewUsers
 artifacts:
   files:
      - gitea
@@ -75,9 +25,3 @@ artifacts:
      - .ebextensions/05-directories-for-application.config
      - .ebextensions/10-application-configuration-template.config
      - .ebextensions/15-application-configuration-generate.config
-  #name: gitea-$(git describe --tags --abbrev=0)-$(date +%Y-%m-%d)
-  #discard-paths: yes
-  #base-directory: gitea-artifacts
-#cache:
-  #paths:
-    # - paths
