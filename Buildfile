@@ -1,0 +1,1 @@
+build: chmod +x gitea
