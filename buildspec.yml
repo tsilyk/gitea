@@ -1,0 +1,27 @@
+version: 0.2
+
+env:
+  variables:
+      TAGS: "bindata"
+phases:
+  build:
+    commands:
+       - echo "----------Build step!----------"
+       - make build
+       - go build contrib/environment-to-ini/environment-to-ini.go
+  post_build:
+    commands:
+       - echo "----------Run tests!----------"
+       - pwd
+       - ls -la
+      #- make test#TestAdminViewUsers
+artifacts:
+  files:
+     - gitea
+     - Procfile
+     - Buildfile
+     - environment-to-ini
+     - .ebextensions/01-storage-efs-mountfilesystem.config
+     - .ebextensions/05-directories-for-application.config
+     - .ebextensions/10-application-configuration-template.config
+     - .ebextensions/15-application-configuration-generate.config
