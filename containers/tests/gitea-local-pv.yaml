@@ -1,41 +1,4 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: nfs-gitea-pv
-  namespace: gitea-testing
-  labels:
-    app: gitea
-    type: nfs
-spec:
-  storageClassName: nfs
-  capacity:
-    storage: 2Gi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: 192.168.5.33
-    path: "/srv/kube_gitea"
-  mountOptions:
-    - nfsvers=4.2
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: nfs-gitea-pvc
-  namespace: gitea-testing
-  labels:
-    app: gitea
-    type: nfs
-spec:
-  storageClassName: nfs
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 2Gi
-  volumeName: nfs-gitea-pv
----
-apiVersion: v1
 kind: Service
 metadata:
   name: gitea
@@ -50,6 +13,38 @@ spec:
   selector:
     app: gitea
   type: NodePort
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gitea-pv-volume
+  namespace: gitea-testing
+  labels:
+    app: gitea
+    type: local
+spec:
+  storageClassName: gitea
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/gitea"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitea-pv-claim
+  namespace: gitea-testing
+  labels:
+    app: gitea
+spec:
+  storageClassName: gitea
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -88,9 +83,6 @@ spec:
             - "/bin/sh"
             - "-c"
             - "until mysql --host=mysql.gitea-testing --user=$GITEA_DB_USER --password=$GITEA_DB_PASS --execute=\"SELECT 1;\"; do echo waiting for mysql; sleep 2; done;" 
-        - name: init-setup-redis
-          image: busybox:1.28
-          command: ['sh', '-c', "until nslookup redis.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for redis; sleep 2; done"]
       containers:
       - image: tsilyk/gitea-server:latest
         name: gitea
@@ -119,7 +111,7 @@ spec:
               name: mysql-gitea-secret
               key: password
         - name: GITEA__server__ROOT_URL
-          value: http://gitea.eq.org.ua/
+          value: http://testgitea.eq.org.ua/
         - name: GITEA__server__LFS_JWT_SECRET
           value: eqiu-ihY3KO0Uwz6MhYxagzAcABn01RR6TMyWMMdmog
         - name: GITEA__security__INTERNAL_TOKEN
@@ -128,18 +120,6 @@ spec:
           value: "true"
         - name: GITEA__security__SECRET_KEY
           value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzUxMDA4NTZ9.gIdd5d-Ng_t6-atwyZEd3MgU-JEJZzAkhtiFxummUPg
-        - name: GITEA__session__PROVIDER
-          value: redis
-        - name: GITEA__session__PROVIDER_CONFIG
-          value: redis://redis:6379/0?pool_size=100&idle_timeout=180s
-        - name: GITEA__queue__TYPE
-          value: redis
-        - name: GITEA__queue__CONN_STR
-          value: redis://redis:6379/0?pool_size=100&idle_timeout=180s
-        - name: GITEA__queue_0x2E_issue_indexer__TYPE
-          value: redis
-        - name: GITEA__indexer__ISSUE_INDEXER_TYPE
-          value: db
         ports:
         - containerPort: 3000
           name: gitea
@@ -149,4 +129,4 @@ spec:
       volumes:
       - name: nfs
         persistentVolumeClaim:
-          claimName: nfs-gitea-pvc
+          claimName: nfs
