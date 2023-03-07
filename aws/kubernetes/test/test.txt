@@ -1,0 +1,3 @@
+kubectl create namespace eks-sample-app
+
+

@@ -117,3 +117,8 @@ prime/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# AWS EKS files
+aws/terraform_kubernetes/.terraform*
+aws/terraform_beanstalk/.terraform*
+aws/*/.terraform*

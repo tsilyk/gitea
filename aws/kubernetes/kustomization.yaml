@@ -1,0 +1,7 @@
+resources:
+  - gitea-namespace.yaml
+  - gitea-secrets.yaml
+  - gitea-database.yaml
+  - gitea-redis.yaml
+  - gitea.yaml
+  - gitea-ingress.yaml
