@@ -60,7 +60,7 @@ module "eks" {
   //version = "19.5.1"
 
   cluster_name    = local.cluster_name
-  cluster_version = "1.24"
+  cluster_version = "1.25"
 
   vpc_id                         = module.vpc.vpc_id
   subnet_ids                     = module.vpc.private_subnets
@@ -118,4 +118,36 @@ module "efs" {
   lifecycle_policy = [{
     "transition_to_ia" = "AFTER_30_DAYS"
   }]
+}
+
+module "iam" {
+  source = "./modules/iam"
+}
+
+/*module "s3" {
+  source  = "../modules/s3"
+  region  = var.region
+  env_app = "${local.env_app}"
+}*/
+
+module "codepipeline" {
+   source                  = "./modules/codepipeline"
+   repository              = "tsilyk/${var.app}"
+   name                    = "${local.env_app}-pipeline"
+   codebuild_project_name  = module.codebuild.codebuild_project_name
+   s3_bucket_name          = module.s3.s3_bucket
+   iam_role_arn            = module.iam.role_arn
+   codestar_connection_arn = module.codestar_connection.codestar_arn
+   elasticapp              = "${local.env_app}-app"
+   beanstalkappenv         = "${local.env_app}-env"
+ }
+
+module "codebuild" {
+  source                 = "./modules/codebuild"
+  codebuild_project_name = "${local.env_app}-proj"
+  s3_bucket_name         = module.s3.s3_bucket
+}
+
+module "codestar_connection" {
+  source = "./modules/codestar_connection"
 }
