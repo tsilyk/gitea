@@ -43,7 +43,7 @@ resource "aws_codepipeline" "pipeline" {
     }
   }
 
-  stage {
+/*  stage {
     name = "Deploy"
     action {
       name            = "Deploy"
@@ -57,7 +57,7 @@ resource "aws_codepipeline" "pipeline" {
         EnvironmentName = "${var.beanstalkappenv}"
       }
     }
-  }
+  }*/
 
 
     /*stage {

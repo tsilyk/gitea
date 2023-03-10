@@ -12,10 +12,10 @@ phases:
   build:
     commands:
 	   - echo "Build started on `date`"
+       - make build
 	   - echo "Building the Docker image... "
 	   - docker build -t $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
 	   - docker tag $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION      
-       #- make build
        #- go build contrib/environment-to-ini/environment-to-ini.go
   post_build:
     commands:

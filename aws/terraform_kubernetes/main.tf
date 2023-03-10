@@ -124,11 +124,11 @@ module "iam" {
   source = "./modules/iam"
 }
 
-/*module "s3" {
-  source  = "../modules/s3"
+module "s3" {
+  source  = "./modules/s3"
   region  = var.region
   env_app = "${local.env_app}"
-}*/
+}
 
 module "codepipeline" {
    source                  = "./modules/codepipeline"
