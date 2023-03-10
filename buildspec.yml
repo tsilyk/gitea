@@ -3,6 +3,7 @@ version: 0.2
 env:
   variables:
       TAGS: "bindata"
+      IMAGE_REPO_NAME: "gitea"
 phases:
   pre_build:
     commands:
