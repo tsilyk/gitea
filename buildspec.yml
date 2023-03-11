@@ -4,6 +4,7 @@ env:
   variables:
       TAGS: "bindata"
       IMAGE_REPO_NAME: "gitea"
+      AWS_ACCOUNT_ID: "085054811666"
 phases:
   pre_build:
     commands:
