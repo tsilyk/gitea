@@ -23,6 +23,7 @@ phases:
        - echo "Build started..."
        #- make build
        - echo "Building the Docker image... "
+       #- docker build -t tsilyk/gitea-server:$(git describe --tags --abbrev=0) .
        - docker build .
        #- docker build -t $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
        #- docker tag $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION      
