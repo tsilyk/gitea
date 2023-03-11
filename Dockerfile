@@ -9,7 +9,9 @@ RUN addgroup -S -g 1000 git && \
     adduser -S -H -D -h /var/lib/gitea/git -s /bin/bash -u 1000 -G git git
 
 COPY ./containers/root /
-RUN chmod 755 /usr/local/bin/docker-entrypoint.sh && \
+COPY ./gitea /app/gitea
+COPY ./environment-to-ini /usr/local/bin/environment-to-ini
+RUN chmod 755 /usr/local/bin/docker-entrypoint.sh /app/gitea /usr/local/bin/environment-to-ini && \
     mkdir -p /var/lib/gitea /etc/gitea && \
     chown git:git -R /var/lib/gitea /etc/gitea
 
@@ -24,7 +26,6 @@ ENV HOME "/var/lib/gitea/git"
 VOLUME ["/var/lib/gitea", "/etc/gitea"]
 WORKDIR /var/lib/gitea
 
-#ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
-ENTRYPOINT ["/bin/sh", "-c", "tail"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
 CMD []
 
