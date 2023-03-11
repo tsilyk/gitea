@@ -53,7 +53,7 @@ module "vpc" {
     "kubernetes.io/role/internal-elb"             = 1
   }
 }
-
+/*
 module "eks" {
   source  = "git::https://github.com/terraform-aws-modules/terraform-aws-eks.git?ref=v19.10.0"
   //source  = "terraform-aws-modules/eks/aws"
@@ -98,7 +98,7 @@ module "eks" {
       //}
     }
   }
-}
+}*/
 
 module "efs" {
   source = "./modules/efs"
