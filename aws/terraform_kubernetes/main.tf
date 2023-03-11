@@ -11,6 +11,8 @@ provider "aws" {
 }
 
 data "aws_availability_zones" "available" {}
+data "aws_caller_identity" "current" {}
+data "aws_partition" "current" {}
 
 locals {
   env_app = "${var.env}-${var.app}"
@@ -150,4 +152,33 @@ module "codebuild" {
 
 module "codestar_connection" {
   source = "./modules/codestar_connection"
+}
+
+module "ecr" {
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-ecr.git?ref=v1.6.0"
+
+  repository_name = var.app
+
+  repository_read_write_access_arns = [data.aws_caller_identity.current.arn]
+  repository_lifecycle_policy = jsonencode({
+    rules = [
+      {
+        rulePriority = 1,
+        description  = "Keep last 5 images",
+        selection = {
+          tagStatus     = "tagged",
+          tagPrefixList = ["v"],
+          countType     = "imageCountMoreThan",
+          countNumber   = 5
+        },
+        action = {
+          type = "expire"
+        }
+      }
+    ]
+  })
+
+  tags = {
+    Terraform   = "true"
+  }
 }
