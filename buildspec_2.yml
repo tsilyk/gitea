@@ -1,0 +1,43 @@
+version: 0.2
+
+env:
+  variables:
+      TAGS: "bindata"
+      IMAGE_REPO_NAME: "gitea"
+      AWS_ACCOUNT_ID: "085054811666"
+phases:
+  pre_build:
+    commands:
+       - echo "Logging in to Amazon ECR..."
+       - ls -la
+       - echo "$AWS_REGION - $CODEBUILD_RESOLVED_SOURCE_VERSION -"
+       #- export ECR_DOMAIN="${aws_account_id}.dkr.ecr.${aws_region}.amazonaws.com"
+       #- aws ecr get-login-password --region ${aws_region} | docker login --username AWS --password-stdin $ECR_DOMAIN
+       - echo Logging in to Amazon ECR...
+       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+       #- REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/__ECR_REPOSITORY_NAME__
+       #- docker login -u User -p $LOGIN_PASSWORD
+       #- aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+  build:
+    commands:
+       - echo "Build started..."
+       - make build
+       - go build contrib/environment-to-ini/environment-to-ini.go
+       - echo "Building the Docker image... "
+       #- docker build -t tsilyk/gitea-server:$(git describe --tags --abbrev=0) .
+       #- docker build .
+       #- docker build -t $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
+       - docker build -t $IMAGE_REPO_NAME:v111 .
+       - docker images
+       #- docker tag $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION      
+       #- go build contrib/environment-to-ini/environment-to-ini.go
+  post_build:
+    commands:
+       - echo "----------Run tests!----------"
+       - pwd
+       - ls -la
+       #- make test#TestAdminViewUsers
+       #- echo Build completed on `date`
+       #- echo Pushing the Docker image...
+       #- docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
+       #- ./scan-image.sh $CODEBUILD_RESOLVED_SOURCE_VERSION $IMAGE_REPO_NAME

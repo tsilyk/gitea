@@ -145,9 +145,11 @@ module "codepipeline" {
  }
 
 module "codebuild" {
-  source                 = "./modules/codebuild"
-  codebuild_project_name = "${local.env_app}-proj"
-  s3_bucket_name         = module.s3.s3_bucket
+  source                  = "./modules/codebuild"
+  codebuild_project_name  = "${local.env_app}-proj"
+  s3_bucket_name          = module.s3.s3_bucket
+  codestar_connection_arn = module.codestar_connection.codestar_arn
+  repository_name         = var.app
 }
 
 module "codestar_connection" {
@@ -158,6 +160,7 @@ module "ecr" {
   source = "git::https://github.com/terraform-aws-modules/terraform-aws-ecr.git?ref=v1.6.0"
 
   repository_name = var.app
+  repository_image_tag_mutability = "MUTABLE"
 
   repository_read_write_access_arns = [data.aws_caller_identity.current.arn]
   repository_lifecycle_policy = jsonencode({
@@ -182,3 +185,58 @@ module "ecr" {
     Terraform   = "true"
   }
 }
+
+/*
+module "build" {
+  source = "git::https://github.com/cloudposse/terraform-aws-cicd.git?ref=0.19.5"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version = "x.x.x"
+  namespace           = "ss"
+  stage               = "dev"
+  name                = var.app
+
+  # Enable the pipeline creation
+  enabled             = true
+
+  # Elastic Beanstalk
+  //elastic_beanstalk_application_name = "<(Optional) Elastic Beanstalk application name>"
+  //elastic_beanstalk_environment_name = "<(Optional) Elastic Beanstalk environment name>"
+
+  # Application repository on GitHub
+  github_oauth_token  = "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"
+  repo_owner          = "tsilyk"
+  repo_name           = "gitea"
+  branch              = "main"
+
+  codestar_connection_arn = module.codestar_connection.codestar_arn
+
+  # http://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref.html
+  # http://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html
+  build_image         = "aws/codebuild/standard:2.0"
+  build_compute_type  = "BUILD_GENERAL1_SMALL"
+
+  # These attributes are optional, used as ENV variables when building Docker images and pushing them to ECR
+  # For more info:
+  # http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html
+  # https://www.terraform.io/docs/providers/aws/r/codebuild_project.html
+  privileged_mode     = true
+  region              = var.region
+  aws_account_id      = "085054811666"
+  image_repo_name     = var.app
+  image_tag           = "latest"
+
+  # Optional extra environment variables
+  environment_variables = [{
+    name  = "JENKINS_URL"
+    value = "https://jenkins.example.com"
+  },
+  {
+    name  = "COMPANY_NAME"
+    value = "Amazon"
+  },
+  {
+    name = "TIME_ZONE"
+    value = "Pacific/Auckland"
+  }]
+}*/
+

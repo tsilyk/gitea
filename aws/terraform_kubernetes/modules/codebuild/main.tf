@@ -10,11 +10,25 @@ resource "aws_codebuild_project" "CodeBuild_Project" {
         type                   = "CODEPIPELINE"
     }
 
+   cache {
+     type  = "LOCAL"
+     modes = ["LOCAL_DOCKER_LAYER_CACHE", "LOCAL_SOURCE_CACHE"]
+   }
+
     environment {
         compute_type                = "BUILD_GENERAL1_SMALL"
         image                       = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
         image_pull_credentials_type = "CODEBUILD"
         type                        = "LINUX_CONTAINER"
+        privileged_mode             = true
+        environment_variable {
+          name  = "AWS_ACCOUNT_ID"
+          value = "${data.aws_caller_identity.default.account_id}"
+        }
+        environment_variable {
+          name  = "IMAGE_REPO_NAME"
+          value = "${var.repository_name}"
+        }
     }
 
     logs_config {
@@ -160,6 +174,15 @@ resource "aws_iam_role" "codebuildrole" {
                             "*",
                         ]
                     },
+                    {
+                        Action   = [
+                            "codestar-connections:UseConnection",
+                        ]
+                        Effect   = "Allow",
+                        Resource = [
+                            var.codestar_connection_arn,
+                        ]
+                    }
                 ]
                 Version   = "2012-10-17"
             }

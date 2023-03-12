@@ -19,9 +19,10 @@ resource "aws_codepipeline" "pipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        ConnectionArn    = var.codestar_connection_arn
-        FullRepositoryId = "${var.repository}"
-        BranchName       = "main"
+        ConnectionArn        = var.codestar_connection_arn
+        FullRepositoryId     = "${var.repository}"
+        BranchName           = "main"
+        OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
   }
