@@ -113,3 +113,24 @@ variable "backup_policy_status" {
     error_message = "Sorry, value must be either 'ENABLED' or 'DISABLED'."
   }
 }
+
+variable "cluster_name" {
+  type        = string
+  description = "The name of the cluster"
+}
+
+variable "cluster_oidc_issuer_url" {
+  description = "The OIDC Identity issuer for the cluster."
+}
+
+variable "cluster_certificate_authority_data" {
+  description = "Base64 encoded certificate data required to communicate with the cluster"
+}
+
+variable "cluster_endpoint" {
+  description = "Endpoint for your Kubernetes API server"
+}
+
+variable "cluster_id" {
+  description = "The ID of the EKS cluster."
+}

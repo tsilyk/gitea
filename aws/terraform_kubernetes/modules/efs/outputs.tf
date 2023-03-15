@@ -32,3 +32,8 @@ output "mount_target_ids" {
   value       = coalescelist(aws_efs_mount_target.this.*.id, [""])
   description = "List of EFS mount target IDs (one per Availability Zone)"
 }
+
+output "efs_access_point_id" {
+  value       = aws_efs_access_point.this.id
+  description = "EFS AP ID"
+}

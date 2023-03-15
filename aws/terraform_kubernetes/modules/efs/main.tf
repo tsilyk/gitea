@@ -87,3 +87,19 @@ resource "aws_efs_backup_policy" "this" {
     status = var.backup_policy_status
   }
 }
+
+resource "aws_efs_access_point" "this" {
+  file_system_id = aws_efs_file_system.this.id
+  posix_user {
+    uid = "1000"
+    gid = "1000" 
+  }
+  root_directory {
+    path = "/gitea"
+    creation_info {
+      owner_gid = "1000"
+      owner_uid = "1000"
+      permissions = "755"
+    }
+  }
+}
