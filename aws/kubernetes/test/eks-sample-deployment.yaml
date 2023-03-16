@@ -6,7 +6,7 @@ metadata:
   labels:
     app: eks-sample-linux-app
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: eks-sample-linux-app
@@ -27,9 +27,7 @@ spec:
                 - arm64
       containers:
       - name: nginx
-        #image: public.ecr.aws/nginx/nginx:1.21
-        image: public.ecr.aws/debian/debian:latest
-        #image: public.ecr.aws/lts/ubuntu:20.04_stable
+        image: public.ecr.aws/nginx/nginx:1.21
         ports:
         - name: http
           containerPort: 80
