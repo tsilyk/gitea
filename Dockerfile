@@ -9,10 +9,8 @@ RUN addgroup -S -g 1000 git && \
     adduser -S -H -D -h /var/lib/gitea/git -s /bin/bash -u 1000 -G git git
 
 COPY ./containers/root /
-#COPY ./gitea /app/gitea
-#COPY ./environment-to-ini /usr/local/bin/environment-to-ini
-COPY --from=build-env /go/src/code.gitea.io/gitea/gitea /app/gitea
-COPY --from=build-env /go/src/code.gitea.io/gitea/environment-to-ini /usr/local/bin/environment-to-ini
+COPY ./gitea /app/gitea
+COPY ./environment-to-ini /usr/local/bin/environment-to-ini
 RUN chmod 755 /usr/local/bin/docker-entrypoint.sh /app/gitea /usr/local/bin/environment-to-ini && \
     mkdir -p /var/lib/gitea /etc/gitea && \
     chown 1000:1000 -R /var/lib/gitea /etc/gitea
