@@ -172,6 +172,7 @@ module "ecr" {
 
   repository_name = var.app
   repository_image_tag_mutability = "MUTABLE"
+  manage_registry_scanning_configuration = false
 
   repository_read_write_access_arns = [data.aws_caller_identity.current.arn]
   repository_lifecycle_policy = jsonencode({
