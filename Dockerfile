@@ -16,7 +16,7 @@ RUN chmod 755 /usr/local/bin/docker-entrypoint.sh /app/gitea /usr/local/bin/envi
     chown 1000:1000 -R /var/lib/gitea /etc/gitea
 
 #git:git
-USER 1000:1000
+#USER 1000:1000
 ENV GITEA_WORK_DIR /var/lib/gitea
 ENV GITEA_CUSTOM /var/lib/gitea/custom
 ENV GITEA_TEMP /tmp/gitea

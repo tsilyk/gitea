@@ -44,7 +44,7 @@ spec:
           command: ['sh', '-c', "until nslookup redis.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for redis; sleep 2; done"]
       containers:
       #- image: tsilyk/gitea-server:latest
-      - image: 085054811666.dkr.ecr.eu-central-1.amazonaws.com/gitea:v2.6
+      - image: 085054811666.dkr.ecr.eu-central-1.amazonaws.com/gitea:v2.8
         name: gitea
         env:
         - name: GITEA____APP_NAME

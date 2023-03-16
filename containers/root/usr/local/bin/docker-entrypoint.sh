@@ -11,7 +11,7 @@ WORK_DIR="/var/lib/gitea"
 GITEA_APP_INI="/etc/gitea/app.ini"
 
 # Replace app.ini settings with env variables in the form GITEA__SECTION_NAME__KEY_NAME
-environment-to-ini --config ${GITEA_APP_INI}
+/usr/local/bin/environment-to-ini --config ${GITEA_APP_INI}
 
 if [ -x ${GITEA} ]; then
         ${GITEA} -c ${GITEA_APP_INI} web || { echo 'gitea run failed' ; exit 1; }
