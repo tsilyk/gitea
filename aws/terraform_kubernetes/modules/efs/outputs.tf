@@ -1,11 +1,16 @@
-output "arn" {
+output "efs_arn" {
   value       = aws_efs_file_system.this.arn
   description = "EFS ARN"
 }
 
-output "id" {
+output "efs_id" {
   value       = aws_efs_file_system.this.id
   description = "EFS ID"
+}
+
+output "efs_ap_id" {
+  value       = aws_efs_access_point.this.id
+  description = "EFS AP ID"
 }
 
 output "dns_name" {

@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-claim1
+  namespace: gitea-testing
+  labels:
+    app: gitea
+    type: efs
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc1
+  selector:
+    matchLabels:
+      pvc: second
+  resources:
+    requests:
+      storage: 5Gi

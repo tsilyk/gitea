@@ -37,3 +37,18 @@ output "cluster_id" {
   description = "The Cluster ID"
   value       = module.eks.cluster_id
 }
+
+output "efs_id" {
+  description = "The EFS ID"
+  value       = module.efs.efs_id
+}
+
+output "efs_ap_id" {
+  description = "The EFS AP ID"
+  value       = module.efs.efs_ap_id
+}
+
+
+
+
+

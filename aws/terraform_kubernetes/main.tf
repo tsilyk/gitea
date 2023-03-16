@@ -138,7 +138,7 @@ module "iam" {
 }
 
 module "s3" {
-  source  = "./modules/s7"
+  source  = "./modules/s3"
   region  = var.region
   env_app = "${local.env_app}"
 }
@@ -277,7 +277,14 @@ module "cluster" {
 }
 */
 module "k8s" {
-  source = "./modules/kubernetes"
+  source           = "./modules/kubernetes"
   cluster_endpoint = module.eks.cluster_endpoint
-
+  cluster_ca_cert  = module.eks.cluster_certificate_authority_data
+  cluster_name     = module.eks.cluster_name
+  efs_id           = module.efs.efs_id
+  efs_ap_id        = module.efs.efs_ap_id
+  rds_hostname     = module.rds.rds_hostname
+  rds_username     = module.rds.rds_username
+  rds_db_name      = module.rds.rds_db_name
+	rds_password     = module.ssm.ssm_rds_password
 }
