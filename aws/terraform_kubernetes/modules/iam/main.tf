@@ -94,6 +94,7 @@ resource "aws_iam_role_policy" "codepipelinerole_policy" {
                 "rds:*",
                 "sqs:*",
                 "ecs:*",
+                "eks:*",
                 "iam:PassRole"
             ],
             "Resource": "*",
