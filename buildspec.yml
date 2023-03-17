@@ -45,6 +45,6 @@ phases:
       - echo Deploy to EKS...
       - aws sts get-caller-identity
       - aws eks --region eu-central-1 update-kubeconfig --name dev-gitea-eks
-      #- kubectl cluster-info
-      #- kubectl get nodes
-      - kubectl version --short
+      - kubectl cluster-info
+      - kubectl get nodes
+        #- kubectl version --short
