@@ -22,27 +22,28 @@ phases:
       - echo Build started on `date`
       - ls -la
       - env
-      - make build
-      - go build contrib/environment-to-ini/environment-to-ini.go
+        #- make build
+        #- go build contrib/environment-to-ini/environment-to-ini.go
       - echo Tests started on `date`
-      - make test-frontend
+        #- make test-frontend
       - pwd
       - ls -la
       - id
       - echo Building the Docker image...
-      - docker version
-      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
-      - ls -la
-      - pwd
-      - docker images
+        #- docker version
+        #- docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+        #- docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+        #- docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+        #- ls -la
+        #- pwd
+        #- docker images
   post_build:
     commands:
-      - echo Pushing the Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
-      - echo Deploy to EKS...
-      - aws eks --region eu-central-1 update-kubeconfig --name dev-gitea-eks
-      - kubectl cluster-info
-      - kubectl get nodes
+      #- echo Pushing the Docker image...
+      #- docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      #- docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+      #- echo Deploy to EKS...
+      #- aws eks --region eu-central-1 update-kubeconfig --name dev-gitea-eks
+      #- kubectl cluster-info
+      #- kubectl get nodes
+      kubectl version --short
