@@ -42,9 +42,9 @@ phases:
       #- echo Pushing the Docker image...
       #- docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       #- docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
-      #- echo Deploy to EKS...
-      #- aws eks --region eu-central-1 update-kubeconfig --name dev-gitea-eks
+      - echo Deploy to EKS...
+      - aws sts get-caller-identity
+      - aws eks --region eu-central-1 update-kubeconfig --name dev-gitea-eks
       #- kubectl cluster-info
       #- kubectl get nodes
-      - aws sts get-caller-identity
       - kubectl version --short
