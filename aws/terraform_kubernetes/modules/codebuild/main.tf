@@ -168,6 +168,7 @@ resource "aws_iam_role" "codebuildrole" {
                             "codebuild:UpdateReport",
                             "codebuild:BatchPutTestCases",
                             "codebuild:BatchPutCodeCoverages",
+                            "eks:*",
                         ]
                         Effect   = "Allow"
                         Resource = [
