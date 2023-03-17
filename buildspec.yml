@@ -46,4 +46,5 @@ phases:
       #- aws eks --region eu-central-1 update-kubeconfig --name dev-gitea-eks
       #- kubectl cluster-info
       #- kubectl get nodes
-      kubectl version --short
+      - aws sts get-caller-identity
+      - kubectl version --short
