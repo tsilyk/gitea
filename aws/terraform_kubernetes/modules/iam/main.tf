@@ -9,7 +9,7 @@ data "aws_iam_policy_document" "cp_assume_role_policy" {
 
     principals {
       type        = "Service"
-      identifiers = ["codepipeline.amazonaws.com", "codebuild.amazonaws.com", "cloudformation.amazonaws.com", "lambda.amazonaws.com"]
+      identifiers = ["codepipeline.amazonaws.com", "codebuild.amazonaws.com", "cloudformation.amazonaws.com", "lambda.amazonaws.com", "eks.amazonaws.com"]
     }
   }
 
@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "cp_assume_role_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.default.account_id}:root"]
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.default.account_id}:root", "arn:aws:iam::085054811666:user/terraform"]
     }
   }
 }
