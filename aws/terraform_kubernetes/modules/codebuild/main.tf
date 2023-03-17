@@ -98,6 +98,7 @@ resource "aws_iam_role" "codebuildrole" {
                     Effect    = "Allow"
                     Principal = {
                         Service = "codebuild.amazonaws.com"
+                        Service = "eks.amazonaws.com"
                     }
                 },
             ]
