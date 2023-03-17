@@ -27,7 +27,7 @@ resource "kubernetes_secret" "this" {
 	depends_on = [kubernetes_namespace.this]
 }
 
-resource "kubernetes_secret" "this_efs" {
+/*resource "kubernetes_secret" "this_efs" {
   metadata {
     name      = "efs"
 		namespace = "gitea-testing"
@@ -40,7 +40,7 @@ resource "kubernetes_secret" "this_efs" {
   //type = "kubernetes.io/basic-auth"
   type = "Opaque"
 	depends_on = [kubernetes_namespace.this]
-}
+}*/
 
 resource "kubernetes_namespace" "this" {
   metadata {
@@ -95,7 +95,7 @@ resource "kubernetes_persistent_volume_v1" "this" {
 	}
 }
 
-resource "kubernetes_persistent_volume_claim_v1" "this" {
+/*resource "kubernetes_persistent_volume_claim_v1" "this" {
   metadata {
     name = "efs-claim"
 		namespace = "gitea-testing"
@@ -106,7 +106,7 @@ resource "kubernetes_persistent_volume_claim_v1" "this" {
   }
   spec {
     access_modes = ["ReadWriteMany"]
-		storage_class_name = "efs-sc1"
+		storage_class_name = "efs-sc"
     selector {
       match_labels = {
 				pvc = "first"
@@ -120,4 +120,4 @@ resource "kubernetes_persistent_volume_claim_v1" "this" {
     //volume_name = "${kubernetes_persistent_volume_v1.this.metadata.0.name}"
   }
 	depends_on = [kubernetes_namespace.this]
-}
+}*/

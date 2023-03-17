@@ -3,6 +3,8 @@ version: 0.2
 env:
   variables:
     TAGS: "bindata"
+    CGO_ENABLED: "0"
+    GOOS: "linux"
 
 phases:
   install:
@@ -19,12 +21,11 @@ phases:
     commands:
       - echo Build started on `date`
       - ls -la
-      #- make build
-      - docker run --rm -v $(pwd):/project --workdir /project --user 998:998  tsilyk/golang-nodejs-alpine:latest sh -c "TAGS=bindata make build && go build contrib/environment-to-ini/environment-to-ini.go"
-      #- go build contrib/environment-to-ini/environment-to-ini.go
+      - env
+      - make build
+      - go build contrib/environment-to-ini/environment-to-ini.go
       - echo Tests started on `date`
-      #- make test-frontend
-      - docker run --rm -v $(pwd):/project --workdir /project --user 998:998  tsilyk/golang-nodejs-alpine:latest sh -c "make test#TestAdminViewUsers"
+      - make test-frontend
       - pwd
       - ls -la
       - id
