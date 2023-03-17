@@ -70,7 +70,7 @@ resource "kubernetes_storage_class_v1" "this" {
 
 resource "kubernetes_persistent_volume_v1" "this" {
 	metadata {
-		name = "efs-sc"
+		name = "efs-sc-t"
 		labels = {
       app = "gitea"
       type = "efs"

@@ -11,7 +11,8 @@ metadata:
   #  nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
 spec:
   rules:
-  - host: gitea.aws.eq.org.ua
+  #- host: gitea.aws.eq.org.ua
+  - host: ae83c1fa272bd42e0882e3b88ccff1df-1253564474.eu-central-1.elb.amazonaws.com
     http:
       paths:
       - pathType: Prefix

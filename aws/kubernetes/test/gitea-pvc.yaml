@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: efs-claim1
+  name: efs-claim
   namespace: gitea-testing
   labels:
     app: gitea
@@ -10,7 +10,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: efs-sc1
+  storageClassName: efs-sc
   selector:
     matchLabels:
       pvc: second

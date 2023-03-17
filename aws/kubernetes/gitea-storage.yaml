@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: efs-sc
+  labels:
+    pvc: second
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+    - ReadWriteOnce
+  storageClassName: efs-sc
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: "fs-00820de13dae7fbec::fsap-06a146450f5b1c9e2"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-claim
+  namespace: gitea-testing
+  labels:
+    app: gitea
+    type: efs
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc
+  selector:
+    matchLabels:
+      pvc: second
+  resources:
+    requests:
+      storage: 5Gi
