@@ -97,8 +97,14 @@ resource "aws_iam_role" "codebuildrole" {
                     Action    = "sts:AssumeRole"
                     Effect    = "Allow"
                     Principal = {
-                        Service = "codebuild.amazonaws.com"
-                        Service = "eks.amazonaws.com"
+                        Service = ["codebuild.amazonaws.com", "eks.amazonaws.com"]
+                    }
+                },
+                {
+                    Action    = "sts:AssumeRole"
+                    Effect    = "Allow"
+                    Principal = {
+                      AWS = ["arn:aws:iam::085054811666:user/terraform"]
                     }
                 },
             ]
