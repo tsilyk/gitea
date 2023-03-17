@@ -13,7 +13,7 @@ COPY ./gitea /app/gitea
 COPY ./environment-to-ini /usr/local/bin/environment-to-ini
 RUN chmod 755 /usr/local/bin/docker-entrypoint.sh /app/gitea /usr/local/bin/environment-to-ini && \
     mkdir -p /var/lib/gitea /etc/gitea && \
-    chown 1000:1000 -R /var/lib/gitea /etc/gitea
+    chown 1000:1000 -R /app /var/lib/gitea /etc/gitea
 
 #git:git
 #USER 1000:1000
