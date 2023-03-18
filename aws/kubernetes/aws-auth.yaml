@@ -1,0 +1,23 @@
+apiVersion: v1
+data:
+  mapRoles: |
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::085054811666:role/node-group-2-eks-node-group-20230318111601144900000003
+      username: system:node:{{EC2PrivateDNSName}}
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::085054811666:role/node-group-1-eks-node-group-20230318111601029500000001
+      username: system:node:{{EC2PrivateDNSName}}
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::085054811666:role/CodeBuildRole
+      username: system:node:{{EC2PrivateDNSName}}
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+  uid: 3c90f300-9cff-43e0-84ac-2179f8721047

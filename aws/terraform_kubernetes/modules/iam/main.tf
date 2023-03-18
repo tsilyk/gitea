@@ -94,7 +94,6 @@ resource "aws_iam_role_policy" "codepipelinerole_policy" {
                 "rds:*",
                 "sqs:*",
                 "ecs:*",
-                "eks:*",
                 "iam:PassRole"
             ],
             "Resource": "*",
@@ -145,10 +144,26 @@ resource "aws_iam_role_policy" "codepipelinerole_policy" {
             ],
             "Resource": "*",
             "Effect": "Allow"
-        }
-    ],
-    "Version": "2012-10-17"
-}
+					},
+					{
+						"Sid": "ECRAccessPolicy",
+						"Effect": "Allow",
+						"Action": [
+							"ecr:DescribeImages"
+						],
+						"Resource": "*"
+					},
+					{
+						"Sid": "EKSAccessPolicy",
+						"Effect": "Allow",
+						"Action": [
+							"eks:Describe*"
+						],
+						"Resource": "*"
+					}
+				],
+				"Version": "2012-10-17"
+			}
 EOF
 }
 

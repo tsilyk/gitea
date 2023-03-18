@@ -178,7 +178,6 @@ resource "aws_iam_role" "codebuildrole" {
                             "codebuild:UpdateReport",
                             "codebuild:BatchPutTestCases",
                             "codebuild:BatchPutCodeCoverages",
-                            "eks:*",
                         ]
                         Effect   = "Allow"
                         Resource = [
@@ -186,7 +185,15 @@ resource "aws_iam_role" "codebuildrole" {
                         ]
                     },
                     {
-                        Action   = [
+                      "Sid": "EKSAccessPolicy",
+                      "Effect": "Allow",
+                      "Action": [
+                        "eks:*"
+                      ],
+                      "Resource": "*"
+                    },
+                    {
+                      Action   = [
                             "codestar-connections:UseConnection",
                         ]
                         Effect   = "Allow",
