@@ -29,7 +29,7 @@ phases:
     commands:
       - echo Build started on `date`
       - ls -la
-      - env
+      #- env
       - make build
       - go build contrib/environment-to-ini/environment-to-ini.go
       - echo Tests started on `date`
@@ -62,8 +62,8 @@ phases:
       - echo "Update Kube Config"      
       - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
       - echo Deploy to EKS...
-      #- kubectl version --short
-      #- kubectl cluster-info
+      - kubectl version --short
+      - kubectl cluster-info
       - kubectl get nodes
       - kubectl set image -n $NAMESPACE deployment/$DEPLOYMENT $IMAGE_REPO_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - kubectl get deployment -n $NAMESPACE
