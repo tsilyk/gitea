@@ -65,6 +65,6 @@ phases:
       # Setup kubectl with our EKS Cluster              
       - echo "Update Kube Config"      
       - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
-      #- kubectl cluster-info
-      #- kubectl get nodes
-      #- kubectl version --short
+      - kubectl version --short
+      - kubectl cluster-info
+      - kubectl get nodes
