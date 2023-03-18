@@ -65,7 +65,7 @@ phases:
       #- kubectl version --short
       #- kubectl cluster-info
       - kubectl get nodes
-      - kubectl set image -n $NAMESPACE deployment/$DEPLOYMENT $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - kubectl set image -n $NAMESPACE deployment/$DEPLOYMENT $IMAGE_REPO_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - kubectl get deployment -n $NAMESPACE
       - kubectl get pod -n $NAMESPACE
       - echo Deploy ended on `date`  
