@@ -12,12 +12,16 @@ data:
       rolearn: arn:aws:iam::085054811666:role/node-group-1-eks-node-group-20230318111601029500000001
       username: system:node:{{EC2PrivateDNSName}}
     - groups:
-      - system:bootstrappers
-      - system:nodes
+      - system:masters
       rolearn: arn:aws:iam::085054811666:role/CodeBuildRole
-      username: system:node:{{EC2PrivateDNSName}}
+      username: terraform
 kind: ConfigMap
 metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"mapRoles":"- groups:\n  - system:bootstrappers\n  - system:nodes\n  rolearn: arn:aws:iam::085054811666:role/node-group-2-eks-node-group-20230318111601144900000003\n  username: system:node:{{EC2PrivateDNSName}}\n- groups:\n  - system:bootstrappers\n  - system:nodes\n  rolearn: arn:aws:iam::085054811666:role/node-group-1-eks-node-group-20230318111601029500000001\n  username: system:node:{{EC2PrivateDNSName}}\n- groups:\n  - system:bootstrappers\n  - system:nodes\n  rolearn: arn:aws:iam::085054811666:role/CodeBuildRole\n  username: system:node:{{EC2PrivateDNSName}}\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"aws-auth","namespace":"kube-system","uid":"3c90f300-9cff-43e0-84ac-2179f8721047"}}
+  creationTimestamp: "2023-03-18T11:27:08Z"
   name: aws-auth
   namespace: kube-system
+  resourceVersion: "36963"
   uid: 3c90f300-9cff-43e0-84ac-2179f8721047

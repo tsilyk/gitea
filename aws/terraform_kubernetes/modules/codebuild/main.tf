@@ -29,6 +29,14 @@ resource "aws_codebuild_project" "CodeBuild_Project" {
           name  = "IMAGE_REPO_NAME"
           value = "${var.repository_name}"
         }
+        environment_variable {
+          name  = "NAMESPACE"
+          value = "gitea-testing"
+        }
+        environment_variable {
+          name  = "DEPLOYMENT"
+          value = "gitea"
+        }
     }
 
     logs_config {
