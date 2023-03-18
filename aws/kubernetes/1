@@ -1,4 +1,0 @@
-resources:
-  - gitea-redis.yaml
-  - gitea.yaml
-  - gitea-ingress.yaml

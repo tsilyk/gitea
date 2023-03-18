@@ -77,7 +77,7 @@ spec:
               name: database
               key: password
         - name: GITEA__server__ROOT_URL
-          value: http://gitea.aws.eq.org.ua/
+          value: https://gitea.aws.eq.org.ua/
         - name: GITEA__server__LFS_JWT_SECRET
           value: eqiu-ihY3KO0Uwz6MhYxagzAcABn01RR6TMyWMMdmog
         - name: GITEA__security__INTERNAL_TOKEN

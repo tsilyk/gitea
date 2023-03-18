@@ -105,7 +105,11 @@ resource "aws_iam_role" "codebuildrole" {
                     Action    = "sts:AssumeRole"
                     Effect    = "Allow"
                     Principal = {
-                        Service = ["codepipeline.amazonaws.com", "codebuild.amazonaws.com", "eks.amazonaws.com"]
+                        Service = [
+                          "codepipeline.amazonaws.com", 
+                          "codebuild.amazonaws.com", 
+                          "eks.amazonaws.com"
+                        ]
                     }
                 },
                 {
@@ -113,9 +117,10 @@ resource "aws_iam_role" "codebuildrole" {
                     Effect    = "Allow"
                     Principal = {
                       AWS = [
-                        "arn:aws:iam::085054811666:user/terraform",
-                        "arn:aws:iam::085054811666:role/CodeBuildRole",
-                        "arn:aws:sts::085054811666:assumed-role/CodeBuildRole/codebuild-kubectl"
+                        "arn:aws:iam::${data.aws_caller_identity.default.account_id}:user/terraform",
+                        #https://aws.amazon.com/blogs/security/announcing-an-update-to-iam-role-trust-policy-behavior/
+                        "arn:aws:iam::${data.aws_caller_identity.default.account_id}:role/CodeBuildRole",
+                        //"arn:aws:sts::085054811666:assumed-role/CodeBuildRole/codebuild-kubectl"
                     ]
                     }
                 },

@@ -2,4 +2,3 @@ resources:
   - gitea-redis.yaml
   - gitea-storage.yaml
   - gitea.yaml
-  - gitea-ingress.yaml
