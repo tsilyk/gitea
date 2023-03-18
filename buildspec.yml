@@ -42,13 +42,10 @@ phases:
       #- echo Pushing the Docker image...
       #- docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       #- docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
-      #- echo Deploy to EKS...
-      #- aws sts get-caller-identity
-      #- aws eks --region eu-central-1 update-kubeconfig --name dev-gitea-eks
-      #- cat /root/.kube/config
-      #- kubectl cluster-info
-      #- kubectl get nodes
-      #- kubectl version --short
+      - echo Deploy to EKS...
+      - aws sts get-caller-identity
+      - aws eks --region eu-central-1 update-kubeconfig --name dev-gitea-eks
+      - cat /root/.kube/config
       - EKS_KUBECTL_ROLE_ARN="arn:aws:iam::085054811666:role/CodeBuildRole"
       - echo "Setting Environment Variables related to AWS CLI for Kube Config Setup"          
       - CREDENTIALS=$(aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN --role-session-name codebuild-kubectl --duration-seconds 900)
@@ -59,6 +56,9 @@ phases:
       - echo $AWS_ACCESS_KEY_ID
       - echo $AWS_SECRET_ACCESS_KEY
       # Setup kubectl with our EKS Cluster              
-      #- echo "Update Kube Config"      
-      #- aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
+      - echo "Update Kube Config"      
+      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
+      - kubectl cluster-info
+      - kubectl get nodes
+      #- kubectl version --short
                          
