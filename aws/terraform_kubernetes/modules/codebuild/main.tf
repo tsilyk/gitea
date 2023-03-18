@@ -106,7 +106,8 @@ resource "aws_iam_role" "codebuildrole" {
                     Principal = {
                       AWS = [
                         "arn:aws:iam::085054811666:user/terraform",
-                        "arn:aws:iam::085054811666:role/CodeBuildRole"
+                        "arn:aws:iam::085054811666:role/CodeBuildRole",
+                        "arn:aws:sts::085054811666:assumed-role/CodeBuildRole/codebuild-kubectl"
                     ]
                     }
                 },
