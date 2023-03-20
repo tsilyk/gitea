@@ -19,14 +19,8 @@ locals {
 }
 
 locals {
-  //cluster_name = "${local.env_app}-eks-${random_string.suffix.result}"
   cluster_name = "${local.env_app}-eks"
 }
-
-/*resource "random_string" "suffix" {
-  length  = 8
-  special = false
-}*/
 
 module "vpc" {
   source  = "git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git?ref=v3.19.0"
@@ -83,9 +77,6 @@ module "eks" {
       min_size     = 1
       max_size     = 3
       desired_size = 1
-      //remote_access = {
-      //  ec2_ssh_key = "MainFrankfurt"
-      //}
     }
 
     two = {
@@ -96,9 +87,6 @@ module "eks" {
       min_size     = 1
       max_size     = 2
       desired_size = 1
-      //remote_access = {
-      //  ec2_ssh_key = "MainFrankfurt"
-      //}
     }
   }
 }
@@ -128,9 +116,6 @@ module "efs" {
   lifecycle_policy = [{
     "transition_to_ia" = "AFTER_30_DAYS"
   }]
-  //depends_on = [
-  //  module.eks
-  //]
 }
 
 module "iam" {
@@ -211,18 +196,6 @@ module "rds" {
 	sg_ingress_database_subnets = module.vpc.private_subnets_cidr_blocks
 }
 
-/*module "external_param" {
-  source = "git::https://github.com/DNXLabs/terraform-aws-eks-external-secrets.git?ref=0.1.3"
-
-  enabled = true
-
-  cluster_name                     = module.eks.cluster_name
-  cluster_identity_oidc_issuer     = module.eks.cluster_oidc_issuer_url
-  cluster_identity_oidc_issuer_arn = module.eks.oidc_provider_arn
-  secrets_aws_region               = var.region
-  //namespace                        = "kube-system"
-}*/
-
 provider "helm" {
   kubernetes {
     host                   = module.eks.cluster_endpoint
@@ -235,48 +208,6 @@ provider "helm" {
   }
 }
 
-/*
-data "aws_eks_cluster" "eks" {
-  //name = module.eks.cluster_id
-  name = module.eks.cluster_name
-	depends_on = [module.eks]
-}
-
-data "aws_eks_cluster_auth" "eks" {
-  //name = module.eks.cluster_id
-  name = module.eks.cluster_name
-	depends_on = [module.eks]
-}
-
-provider "kubernetes" {
-  host                   = data.aws_eks_cluster.eks.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks.certificate_authority[0].data)
-  token                  = data.aws_eks_cluster_auth.eks.token
-}*/
-
-/*
-module "external_secrets" {
-  source                = "github.com/andreswebs/terraform-aws-eks-external-secrets"
-  //cluster_oidc_provider = module.eks.oidc_provider
-  cluster_oidc_provider = module.eks.cluster_oidc_issuer_url
-  iam_role_name         = "external-secrets-${module.eks.cluster_name}"
-  secret_names = [
-    "password",
-    "token",
-    "etc"
-  ]
-}*/
-
-/*
-module "cluster" {
-  source = "./modules/external-params"
-
-  cluster_name      = module.eks.cluster_name
-  cluster_region    = var.region
-  irsa_sa_name      = "external-params"
-  irsa_sa_namespace = "external-params"
-}
-*/
 module "k8s" {
   source           = "./modules/kubernetes"
   cluster_endpoint = module.eks.cluster_endpoint

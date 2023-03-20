@@ -22,25 +22,9 @@ resource "kubernetes_secret" "this" {
     host     = "${var.rds_hostname}:3306"
   }
 
-  //type = "kubernetes.io/basic-auth"
   type = "Opaque"
 	depends_on = [kubernetes_namespace.this]
 }
-
-/*resource "kubernetes_secret" "this_efs" {
-  metadata {
-    name      = "efs"
-		namespace = "gitea-testing"
-  }
-
-  data = {
-    efs_conn = "fs-01094e2e343a9c10a::fsap-00197064408e037dc"
-  }
-
-  //type = "kubernetes.io/basic-auth"
-  type = "Opaque"
-	depends_on = [kubernetes_namespace.this]
-}*/
 
 resource "kubernetes_namespace" "this" {
   metadata {
@@ -89,13 +73,12 @@ resource "kubernetes_persistent_volume_v1" "this" {
 			csi {
 				driver = "efs.csi.aws.com"
         volume_handle = "${var.efs_id}::${var.efs_ap_id}"
-        #volume_handle = "fs-0f0afa1e2739f5147::fsap-092f0d29859b6f590"
 			}
 		}
 	}
 }
 
-/*resource "kubernetes_persistent_volume_claim_v1" "this" {
+resource "kubernetes_persistent_volume_claim_v1" "this" {
   metadata {
     name = "efs-claim"
 		namespace = "gitea-testing"
@@ -120,4 +103,4 @@ resource "kubernetes_persistent_volume_v1" "this" {
     //volume_name = "${kubernetes_persistent_volume_v1.this.metadata.0.name}"
   }
 	depends_on = [kubernetes_namespace.this]
-}*/
+}

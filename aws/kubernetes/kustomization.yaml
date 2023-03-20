@@ -1,4 +1,3 @@
 resources:
   - gitea-redis.yaml
-  - gitea-storage.yaml
   - gitea.yaml
